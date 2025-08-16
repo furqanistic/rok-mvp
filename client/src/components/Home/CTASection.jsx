@@ -29,16 +29,6 @@ const CTASection = () => {
             Set up your profile, connect OBS, and watch the tips flow in.
           </p>
 
-          <div className='flex flex-col sm:flex-row gap-4 justify-center'>
-            <button className='group bg-white text-purple-700 px-8 py-4 rounded-lg font-bold hover:bg-gray-50 transition-all duration-200  hover:-translate-y-1 flex items-center justify-center gap-2'>
-              Get Started Free
-              <ArrowRight className='w-4 h-4 group-hover:translate-x-1 transition-transform' />
-            </button>
-            <button className='border-2 border-white/30 text-white px-8 py-4 rounded-lg font-bold hover:bg-white/10 hover:border-white/50 transition-all duration-200 backdrop-blur-sm'>
-              See Pricing
-            </button>
-          </div>
-
           <div className='mt-8 text-purple-200 text-sm'>
             No setup fees • No monthly costs • Cancel anytime
           </div>

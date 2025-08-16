@@ -4,6 +4,8 @@ import {
   Bitcoin,
   Check,
   CreditCard,
+  DollarSign,
+  MousePointer2,
   Plus,
   Shield,
   Smartphone,
@@ -23,12 +25,42 @@ const TopupPage = () => {
   const [selectedPayment, setSelectedPayment] = useState(null)
 
   const presetAmounts = [
-    { value: 500, label: '$5', gradient: 'from-green-400 to-emerald-500' },
-    { value: 1000, label: '$10', gradient: 'from-blue-400 to-cyan-500' },
-    { value: 2500, label: '$25', gradient: 'from-purple-400 to-pink-500' },
-    { value: 5000, label: '$50', gradient: 'from-orange-400 to-red-500' },
-    { value: 10000, label: '$100', gradient: 'from-yellow-400 to-orange-500' },
-    { value: 25000, label: '$250', gradient: 'from-indigo-400 to-purple-500' },
+    {
+      value: 500,
+      label: '$5',
+      gradient: 'from-green-400 to-emerald-500',
+      popular: false,
+    },
+    {
+      value: 1000,
+      label: '$10',
+      gradient: 'from-blue-400 to-cyan-500',
+      popular: true,
+    },
+    {
+      value: 2500,
+      label: '$25',
+      gradient: 'from-purple-400 to-pink-500',
+      popular: false,
+    },
+    {
+      value: 5000,
+      label: '$50',
+      gradient: 'from-orange-400 to-red-500',
+      popular: false,
+    },
+    {
+      value: 10000,
+      label: '$100',
+      gradient: 'from-yellow-400 to-orange-500',
+      popular: false,
+    },
+    {
+      value: 25000,
+      label: '$250',
+      gradient: 'from-indigo-400 to-purple-500',
+      popular: false,
+    },
   ]
 
   const paymentCategories = [
@@ -103,7 +135,7 @@ const TopupPage = () => {
 
   return (
     <Layout>
-      <div className='bg-black min-h-screen'>
+      <div className='bg-black min-h-screen p-6'>
         {/* Energetic Header */}
         <div className='mb-8 md:mb-12'>
           <div className='relative'>
@@ -127,19 +159,25 @@ const TopupPage = () => {
         {!showPaymentMethods ? (
           /* Amount Selection Phase */
           <div className='max-w-6xl mx-auto'>
-            <div className='text-center mb-16'>
+            <div className='text-center mb-8'>
               <div className='inline-flex items-center gap-2 bg-gradient-to-r from-purple-600/20 to-purple-700/20 border border-purple-500/30 rounded-full px-6 py-3 mb-6'>
-                <Sparkles className='w-5 h-5 text-purple-400' />
+                <DollarSign className='w-5 h-5 text-purple-400' />
                 <span className='text-purple-200 font-medium'>
-                  Choose your amount
+                  Step 1: Choose Amount
                 </span>
               </div>
               <h2 className='text-3xl font-bold text-white mb-4'>
-                How much fuel do you need?
+                How much would you like to add?
               </h2>
-              <p className='text-gray-400 text-lg'>
-                Pick a preset amount or go custom
+              <p className='text-gray-400 text-lg mb-6'>
+                Click on any amount below to proceed with your top-up
               </p>
+
+              {/* Clear instruction with animation */}
+              <div className='flex items-center justify-center gap-2 text-purple-400 text-sm animate-bounce'>
+                <MousePointer2 className='w-4 h-4' />
+                <span>Click to select your top-up amount</span>
+              </div>
             </div>
 
             <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-12'>
@@ -147,47 +185,80 @@ const TopupPage = () => {
                 <button
                   key={amount.value}
                   onClick={() => handleAmountSelect(amount.value)}
-                  className='group relative h-40 bg-gradient-to-br from-gray-900 to-black border border-gray-800 rounded-2xl hover:border-gray-700 transition-all duration-300 hover:-translate-y-2 overflow-hidden'
+                  className='group relative h-44 bg-gradient-to-br from-gray-900 to-black border-2 border-gray-700 rounded-2xl hover:border-purple-500 transition-all duration-300 hover:-translate-y-2 overflow-hidden hover:shadow-2xl hover:shadow-purple-500/25 cursor-pointer'
                 >
+                  {/* Popular badge */}
+                  {amount.popular && (
+                    <div className='absolute top-3 right-3 z-10'>
+                      <span className='bg-gradient-to-r from-purple-500 to-pink-500 text-white text-xs px-2 py-1 rounded-full font-bold'>
+                        Popular
+                      </span>
+                    </div>
+                  )}
+
                   {/* Glow effect */}
                   <div
-                    className={`absolute inset-0 bg-gradient-to-r ${amount.gradient} opacity-0 group-hover:opacity-20 transition-opacity duration-500 blur-xl`}
+                    className={`absolute inset-0 bg-gradient-to-r ${amount.gradient} opacity-0 group-hover:opacity-30 transition-opacity duration-500 blur-xl`}
                   ></div>
 
                   <div className='relative h-full flex flex-col items-center justify-center p-6'>
-                    <div className='text-4xl font-bold text-white mb-4'>
+                    {/* Amount */}
+                    <div className='text-4xl font-bold text-white mb-2 group-hover:scale-110 transition-transform duration-300'>
                       {amount.label}
                     </div>
-                    <div className='text-gray-400 text-sm'>Quick boost</div>
+
+                    {/* Action text */}
+                    <div className='text-gray-400 text-sm mb-3'>
+                      Quick boost
+                    </div>
+
+                    {/* Click indicator */}
+                    <div className='flex items-center gap-2 text-purple-400 text-xs  transition-opacity duration-300'>
+                      <span>Click to add</span>
+                      <ArrowRight className='w-3 h-3 group-hover:translate-x-1 transition-transform' />
+                    </div>
                   </div>
+
+                  {/* Hover border effect */}
+                  <div className='absolute inset-0 rounded-2xl border-2 border-transparent group-hover:border-purple-500/50 transition-colors duration-300'></div>
                 </button>
               ))}
 
-              {/* Custom Amount Card */}
+              {/* Enhanced Custom Amount Card */}
               <button
                 onClick={handleCustomClick}
-                className='group relative h-40 bg-gradient-to-br from-gray-900 to-black border border-gray-800 rounded-2xl hover:border-purple-500/50 transition-all duration-300 hover:-translate-y-2 overflow-hidden col-span-2 md:col-span-1'
+                className='group relative h-44 bg-gradient-to-br from-gray-900 to-black border-2 border-gray-700 rounded-2xl hover:border-purple-500 transition-all duration-300 hover:-translate-y-2 overflow-hidden col-span-2 md:col-span-1 cursor-pointer hover:shadow-2xl hover:shadow-purple-500/25'
               >
                 <div className='absolute inset-0 bg-gradient-to-r from-purple-600/10 to-purple-700/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500'></div>
 
                 <div className='relative h-full flex flex-col items-center justify-center p-6'>
                   {customAmount && selectedAmount ? (
                     <>
-                      <div className='text-4xl font-bold text-white mb-4'>
+                      <div className='text-4xl font-bold text-white mb-2 group-hover:scale-110 transition-transform duration-300'>
                         ${(selectedAmount / 100).toFixed(2)}
                       </div>
-                      <div className='text-gray-400 text-sm'>Custom amount</div>
+                      <div className='text-gray-400 text-sm mb-3'>
+                        Custom amount
+                      </div>
+                      <div className='flex items-center gap-2 text-purple-400 text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-300'>
+                        <span>Click to change</span>
+                        <ArrowRight className='w-3 h-3 group-hover:translate-x-1 transition-transform' />
+                      </div>
                     </>
                   ) : (
                     <>
-                      <div className='w-16 h-16 bg-gradient-to-r from-purple-600 to-purple-700 rounded-2xl flex items-center justify-center mb-4'>
+                      <div className='w-16 h-16 bg-gradient-to-r from-purple-600 to-purple-700 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300'>
                         <Plus className='w-8 h-8 text-white' />
                       </div>
                       <div className='text-white font-bold mb-2'>
                         Custom Amount
                       </div>
-                      <div className='text-gray-400 text-sm'>
+                      <div className='text-gray-400 text-sm mb-3'>
                         Enter your own
+                      </div>
+                      <div className='flex items-center gap-2 text-purple-400 text-xs  transition-opacity duration-300'>
+                        <span>Click to enter</span>
+                        <ArrowRight className='w-3 h-3 group-hover:translate-x-1 transition-transform' />
                       </div>
                     </>
                   )}
@@ -195,7 +266,7 @@ const TopupPage = () => {
               </button>
             </div>
 
-            {/* Enhanced Info Cards - Responsive Height */}
+            {/* Enhanced Info Cards */}
             <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
               <div className='group relative h-48 md:h-56'>
                 <div className='absolute inset-0 bg-gradient-to-r from-green-500/20 to-emerald-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl rounded-2xl'></div>
@@ -271,7 +342,7 @@ const TopupPage = () => {
                         Adding {getDisplayAmount()}
                       </div>
                       <p className='text-purple-200 text-sm md:text-base'>
-                        Choose how to pay
+                        Step 2: Choose payment method
                       </p>
                     </div>
                   </div>
@@ -279,7 +350,7 @@ const TopupPage = () => {
                     onClick={resetFlow}
                     className='text-purple-400 hover:text-purple-300 font-medium underline transition-colors text-sm'
                   >
-                    Change
+                    Change Amount
                   </button>
                 </div>
               </div>
@@ -289,12 +360,18 @@ const TopupPage = () => {
               <h2 className='text-2xl md:text-3xl font-bold text-white mb-2 md:mb-4'>
                 Pick Your{' '}
                 <span className='bg-gradient-to-r from-purple-500 to-purple-700 bg-clip-text text-transparent'>
-                  Payment Style
+                  Payment Method
                 </span>
               </h2>
-              <p className='text-gray-400 text-base md:text-lg'>
+              <p className='text-gray-400 text-base md:text-lg mb-6'>
                 Fast, secure, and reliable
               </p>
+
+              {/* Clear instruction for payment selection */}
+              <div className='flex items-center justify-center gap-2 text-purple-400 text-sm'>
+                <MousePointer2 className='w-4 h-4' />
+                <span>Click on your preferred payment method</span>
+              </div>
             </div>
 
             <div className='grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 mb-8 md:mb-12'>
@@ -302,10 +379,10 @@ const TopupPage = () => {
                 <button
                   key={category.id}
                   onClick={() => setSelectedPayment(category.id)}
-                  className={`group relative h-64 md:h-80 text-left transition-all duration-300 ${
+                  className={`group relative h-64 md:h-80 text-left transition-all duration-300 cursor-pointer border-2 rounded-2xl ${
                     selectedPayment === category.id
-                      ? 'scale-105'
-                      : 'hover:-translate-y-2'
+                      ? 'scale-105 border-purple-500'
+                      : 'hover:-translate-y-2 border-gray-700 hover:border-gray-600'
                   }`}
                 >
                   {/* Enhanced glow effect */}
@@ -320,10 +397,8 @@ const TopupPage = () => {
                   ></div>
 
                   <div
-                    className={`relative h-full bg-gradient-to-br from-gray-900 to-black border rounded-2xl p-4 md:p-8 transition-all duration-300 overflow-hidden ${
-                      selectedPayment === category.id
-                        ? 'border-purple-500 bg-purple-500/10'
-                        : 'border-gray-800 hover:border-gray-700'
+                    className={`relative h-full bg-gradient-to-br from-gray-900 to-black rounded-2xl p-4 md:p-8 transition-all duration-300 overflow-hidden ${
+                      selectedPayment === category.id ? 'bg-purple-500/10' : ''
                     }`}
                   >
                     {/* Badge */}
@@ -383,6 +458,15 @@ const TopupPage = () => {
                         )}
                       </div>
                     </div>
+
+                    {/* Click hint */}
+                    {selectedPayment !== category.id && (
+                      <div className='absolute bottom-4 left-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300'>
+                        <div className='flex items-center gap-2 text-purple-400 text-xs'>
+                          <span>Click to select</span>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </button>
               ))}
@@ -392,14 +476,20 @@ const TopupPage = () => {
             <div className='text-center'>
               <button
                 disabled={!selectedPayment}
-                className='group relative bg-gradient-to-r from-purple-600 to-purple-700 text-white px-8 md:px-16 py-2 rounded-2xl font-medium hover:from-purple-700 hover:to-purple-700 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed hover:-translate-y-1 overflow-hidden h-10 text-sm flex items-center justify-center mx-auto'
+                className='group relative bg-gradient-to-r from-purple-600 to-purple-700 text-white px-8 md:px-16 py-4 rounded-2xl font-bold hover:from-purple-700 hover:to-purple-800 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed hover:-translate-y-1 overflow-hidden text-lg shadow-lg shadow-purple-500/25'
               >
                 <div className='absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300'></div>
                 <span className='relative z-10 flex items-center gap-2'>
-                  Continue to Payment
-                  <ArrowRight className='w-4 h-4 group-hover:translate-x-1 transition-transform' />
+                  Complete Top-up {getDisplayAmount()}
+                  <ArrowRight className='w-5 h-5 group-hover:translate-x-1 transition-transform' />
                 </span>
               </button>
+
+              {!selectedPayment && (
+                <p className='text-gray-500 text-sm mt-3'>
+                  Please select a payment method to continue
+                </p>
+              )}
             </div>
           </div>
         )}
@@ -418,51 +508,51 @@ const TopupPage = () => {
               <div className='bg-gradient-to-br from-gray-900 to-black border border-gray-800 rounded-2xl p-8 w-full max-w-md'>
                 <div className='text-center mb-6'>
                   <div className='w-16 h-16 bg-gradient-to-r from-purple-600 to-purple-700 rounded-2xl flex items-center justify-center mx-auto mb-4'>
-                    <Plus className='w-8 h-8 text-white' />
+                    <DollarSign className='w-8 h-8 text-white' />
                   </div>
                   <h3 className='text-2xl font-bold text-white mb-2'>
-                    Custom Amount
+                    Enter Custom Amount
                   </h3>
                   <p className='text-gray-400'>
-                    Enter the amount you'd like to add
+                    How much would you like to add to your wallet?
                   </p>
                 </div>
 
                 <div className='mb-6'>
                   <div className='relative'>
-                    <span className='absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500 text-lg'>
+                    <span className='absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 text-xl font-bold'>
                       $
                     </span>
                     <input
                       type='number'
-                      placeholder='0.00'
+                      placeholder='Enter amount (e.g., 50.00)'
                       value={customAmount}
                       onChange={(e) => setCustomAmount(e.target.value)}
-                      className='w-full h-12 pl-10 pr-4 bg-black border border-gray-700 rounded-lg text-white text-lg text-center focus:outline-none focus:ring-1 focus:ring-purple-500 focus:border-transparent'
+                      className='w-full h-14 pl-12 pr-4 bg-black border-2 border-gray-700 rounded-xl text-white text-xl text-center focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent'
                       min='1'
                       max='10000'
                       step='0.01'
                       autoFocus
                     />
                   </div>
-                  <p className='text-gray-500 text-sm mt-2 text-center'>
-                    Minimum $1.00, Maximum $10,000.00
+                  <p className='text-gray-500 text-sm mt-3 text-center'>
+                    Minimum $1.00 • Maximum $10,000.00
                   </p>
                 </div>
 
                 <div className='flex gap-3'>
                   <button
                     onClick={handleCustomCancel}
-                    className='flex-1 px-4 py-2 border border-gray-700 text-gray-400 hover:text-white hover:bg-gray-800 rounded-lg font-medium transition-colors h-8 text-sm flex items-center justify-center'
+                    className='flex-1 px-6 py-3 border-2 border-gray-700 text-gray-400 hover:text-white hover:bg-gray-800 hover:border-gray-600 rounded-xl font-medium transition-all duration-300'
                   >
                     Cancel
                   </button>
                   <button
                     onClick={handleCustomSubmit}
                     disabled={!customAmount || parseFloat(customAmount) < 1}
-                    className='flex-1 bg-gradient-to-r from-purple-600 to-purple-700 text-white px-4 py-2 rounded-lg font-bold hover:from-purple-700 hover:to-purple-800 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed h-8 text-sm flex items-center justify-center'
+                    className='flex-1 bg-gradient-to-r from-purple-600 to-purple-700 text-white px-6 py-3 rounded-xl font-bold hover:from-purple-700 hover:to-purple-800 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg'
                   >
-                    Add Amount
+                    Add ${customAmount || '0.00'}
                   </button>
                 </div>
               </div>

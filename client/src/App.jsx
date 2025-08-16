@@ -4,6 +4,7 @@ import { Toaster } from 'react-hot-toast'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
 import AboutPage from './pages/About/AboutPage'
+import DiscoverPage from './pages/Discover/DiscoverPage'
 import HomePage from './pages/Home/HomePage'
 import TopupPage from './pages/Topup/TopupPage'
 
@@ -15,6 +16,7 @@ const App = () => {
         <Route path='/' element={<HomePage />} />
         <Route path='topup' element={<TopupPage />} />
         <Route path='about' element={<AboutPage />} />
+        <Route path='discover' element={<DiscoverPage />} />
       </Routes>
     </BrowserRouter>
   )

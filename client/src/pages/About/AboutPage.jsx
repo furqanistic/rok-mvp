@@ -329,7 +329,7 @@ const AboutPage = () => {
           </p>
           <button className='group bg-gradient-to-r from-purple-600 to-purple-700 text-white px-8 md:px-12 py-4 md:py-5 rounded-2xl font-bold transition-all duration-300 hover:-translate-y-1 text-base md:text-lg'>
             <span className='flex items-center gap-2 md:gap-3'>
-              Get Started Free
+              Get Started
               <ArrowRight className='w-5 h-5 md:w-6 md:h-6 group-hover:translate-x-1 transition-transform' />
             </span>
           </button>
